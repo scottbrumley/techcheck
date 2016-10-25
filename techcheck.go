@@ -9,12 +9,14 @@ import (
 type TechCheckResults struct {
 	totalSystems int
 	systemTypes map[string]int
+	systemAgents map[string]int
 }
 
 // Check SystemTree
 func CheckSystemTree(data epo.SystemProperties)(systemChecks TechCheckResults){
 	lineNum := 1
 	osTypes := make(map[string]int)
+	agentVersion := make(map[string]int)
 	OSStr := ""
 
 	for i := range data {
@@ -44,12 +46,19 @@ func CheckSystemTree(data epo.SystemProperties)(systemChecks TechCheckResults){
 				OSStr = fmt.Sprint(value)
 				osTypes[OSStr] = osTypes[OSStr] + 1
 			}
+
+			// Make a list of all Operating Systems and Count them
+			if (key == "EPOLeafNode.AgentVersion"){
+				OSStr = fmt.Sprint(value)
+				agentVersion[OSStr] = agentVersion[OSStr] + 1
+			}
 		}
 		lineNum = lineNum + 1
 		fmt.Println("")
 	}
 	systemChecks.totalSystems = lineNum - 1
 	systemChecks.systemTypes = osTypes
+	systemChecks.systemAgents = agentVersion
 
 	return systemChecks
 }
