@@ -12,7 +12,7 @@ type TechCheckResults struct {
 	systemAgents map[string]int
 }
 
-// Check SystemTree
+// SystemTree Settings
 func CheckSystemTree(data epo.SystemProperties)(systemChecks TechCheckResults){
 	lineNum := 1
 	osTypes := make(map[string]int)
@@ -63,13 +63,58 @@ func CheckSystemTree(data epo.SystemProperties)(systemChecks TechCheckResults){
 	return systemChecks
 }
 
-func main() {
+// EPO Settings
+type EpoSettings struct {
+	version string
+}
 
-	myParms := epo.GetParams()
+func importDashboards(myParms epo.ParamStruct){
+	// Importing Dashboards
+	fmt.Println("")
+	fmt.Println("Importing Tech Check Dashboards")
+	// Edit Settings for Import
+	myParms.Cmd = "clienttask.importClientTask"
+	myParms.Parms = "importFileName=tech_check_operations_health_dashboard.xml"
+	myParms.Query = myParms.Url + "/" + myParms.Cmd + "?" + myParms.Parms + "&:output=" + myParms.Output
+	fmt.Println(myParms.Query)
+
+	jsonStr := epo.GetUrl(myParms)
+	fmt.Println(jsonStr)
+}
+
+func GetEpoVersion(myParms epo.ParamStruct){
+	// ePO Version
+	// Importing Dashboards
+	fmt.Println("")
+	fmt.Println("Checking ePO ...")
+	// Edit Settings for Import
+	myParms.Cmd = "epo.getVersion"
+	myParms.Query = myParms.Url + "/" + myParms.Cmd + "?:output=" + myParms.Output
+	jsonStr := epo.GetUrl(myParms)
+	fmt.Println(jsonStr)
+}
+
+func CheckSystems(myParms epo.ParamStruct){
+	// Checking System Tree
+	fmt.Println("")
+	fmt.Println("Checking System Tree ...")
+
+	// Edit Settings for System Tree
+	myParms.Cmd = "system.find"
+	myParms.Parms = "searchText=."
+	myParms.Query = myParms.Url + "/" + myParms.Cmd + "?" + myParms.Parms + "&:output=" + myParms.Output
+
 	jsonStr := epo.GetUrl(myParms)
 	data := epo.DecodeJson(jsonStr)
+	treeResults := CheckSystemTree(data)
+	fmt.Println(treeResults)
+}
 
-	checkResults := CheckSystemTree(data)
-	fmt.Println(checkResults)
+func main() {
+	var myParms epo.ParamStruct
+	myParms = epo.GetParams()
+	myParms.SslIgnore = true
 
+	CheckSystems(myParms)
+	GetEpoVersion(myParms)
 }

@@ -1,0 +1,136 @@
+<dashboard id="1">
+    <name>Tech Check - Operations Health</name>
+    <filteringEnabled>false</filteringEnabled>
+    <monitor>
+        <uid>2</uid>
+        <width>1</width>
+        <height>1</height>
+        <x>0</x>
+        <y>0</y>
+        <refreshInterval>5</refreshInterval>
+        <refreshIntervalUnit>MIN</refreshIntervalUnit>
+        <customConfigOptions>dashboardElement:config?database=</customConfigOptions>
+        <filteringEnabled>true</filteringEnabled>
+        <customExport factory="core.queryFactory">
+            <query id="2">
+                <dictionary id="3"/>
+                <name>Agent + Protection</name>
+                <description></description>
+                <target>EPOLeafNode</target>
+                <table-uri>query:table?orion.table.columns=EPOLeafNode.LastUpdate%3AEPOLeafNode.NodeName&amp;orion.table.order=az&amp;orion.table.order.by=EPOLeafNode.LastUpdate%3AEPOLeafNode.NodeName</table-uri>
+                <condition-uri>query:condition?orion.condition.sexp=%28+where+%28+and+%28+newerThan+EPOLeafNode.LastUpdate+7776000000++%29+%28+eq+EPOLeafNode.ManagedState+1++%29+%29+%29</condition-uri>
+                <summary-uri>query:summary?horizontal=true&amp;orion.sum.query=true&amp;orion.query.type=bar.stackedbar&amp;orion.sum.group.by=EPOProdPropsView_EPOAGENT.productversion%3AEPOProdPropsView_THREATPREVENTION.productversion&amp;orion.sum.order=desc%3Adesc&amp;orion.sum.limit.count=100%3A100&amp;orion.sum.aggregation=count&amp;orion.sum.aggregation.showTotal=true</summary-uri>
+            </query>
+        </customExport>
+    </monitor>
+    <monitor>
+        <uid>29</uid>
+        <width>1</width>
+        <height>1</height>
+        <x>1</x>
+        <y>0</y>
+        <refreshInterval>5</refreshInterval>
+        <refreshIntervalUnit>MIN</refreshIntervalUnit>
+        <customConfigOptions>dashboardElement:config?database=</customConfigOptions>
+        <filteringEnabled>true</filteringEnabled>
+        <customExport factory="core.queryFactory">
+            <query id="4">
+                <dictionary id="5"/>
+                <name>Agent Communication Summary</name>
+                <description>Displays a pie chart of managed systems indicating whether the agents have communicated with the ePO server within the past day. Click either slice to view or take actions on those systems.</description>
+                <target>EPOLeafNode</target>
+                <table-uri>query:table?orion.table.columns=EPOLeafNode.NodeName%3AEPOComputerProperties.UserName%3AEPOProdPropsView_EPOAGENT.productversion%3AEPOComputerProperties.IPV6%3AEPOComputerProperties.DomainName%3AEPOComputerProperties.OSVersion%3AEPOComputerProperties.OSType%3AEPOLeafNode.LastUpdate&amp;orion.table.order=az&amp;orion.table.order.by=EPOLeafNode.NodeName%3AEPOComputerProperties.UserName%3AEPOProdPropsView_EPOAGENT.productversion%3AEPOComputerProperties.IPV6%3AEPOComputerProperties.DomainName%3AEPOComputerProperties.OSVersion%3AEPOComputerProperties.OSType%3AEPOLeafNode.LastUpdate</table-uri>
+                <condition-uri>query:condition?orion.condition.sexp=%28+where+%28+eq+EPOLeafNode.ManagedState+1++%29+%29</condition-uri>
+                <summary-uri>query:summary?bool.red.text=Non+Compliant&amp;orion.sum.query=true&amp;bool.green.text=Compliant&amp;bool.show.criteria=false&amp;orion.query.type=pie.bool&amp;bool.green.criteria=%28+where+%28+and+%28+newerThan+EPOLeafNode.LastUpdate+604800000++%29+%28+version_ge+EPOProdPropsView_EPOAGENT.productversion+%225%22+%29+%29+%29&amp;show.percentage=false&amp;orion.sum.aggregation=count&amp;orion.sum.aggregation.showTotal=true</summary-uri>
+            </query>
+        </customExport>
+    </monitor>
+    <monitor>
+        <uid>3</uid>
+        <width>1</width>
+        <height>1</height>
+        <x>0</x>
+        <y>1</y>
+        <refreshInterval>5</refreshInterval>
+        <refreshIntervalUnit>MIN</refreshIntervalUnit>
+        <customConfigOptions>dashboardElement:config?database=</customConfigOptions>
+        <filteringEnabled>true</filteringEnabled>
+        <customExport factory="core.queryFactory">
+            <query id="6">
+                <dictionary id="7"/>
+                <name>DAT versions (last 1 month)</name>
+                <description></description>
+                <target>EPOLeafNode</target>
+                <table-uri>query:table?orion.table.columns=EPOLeafNode.LastUpdate%3AEPOLeafNode.NodeName&amp;orion.table.order=az&amp;orion.table.order.by=EPOLeafNode.LastUpdate%3AEPOLeafNode.NodeName</table-uri>
+                <condition-uri>query:condition?orion.condition.sexp=%28+where+%28+and+%28+eq+EPOLeafNode.ManagedState+1++%29+%28+newerThan+EPOLeafNode.LastUpdate+2592000000++%29+%29+%29</condition-uri>
+                <summary-uri>query:summary?orion.sum.query=true&amp;orion.query.type=pie.pie&amp;show.percentage=false&amp;orion.sum.group.by=EPOProdPropsView_VIRUSCAN.datver&amp;orion.sum.order=desc&amp;orion.sum.limit.count=360&amp;orion.sum.aggregation=count&amp;orion.sum.aggregation.showTotal=true</summary-uri>
+            </query>
+        </customExport>
+    </monitor>
+    <monitor>
+        <uid>24</uid>
+        <width>1</width>
+        <height>1</height>
+        <x>1</x>
+        <y>1</y>
+        <refreshInterval>5</refreshInterval>
+        <refreshIntervalUnit>MIN</refreshIntervalUnit>
+        <customConfigOptions>dashboardElement:config?database=</customConfigOptions>
+        <filteringEnabled>true</filteringEnabled>
+        <customExport factory="core.queryFactory">
+            <query id="8">
+                <dictionary id="9"/>
+                <name>Failed DAT Updates (last week)</name>
+                <description>Displays a group bar chart grouped by hour of all failed product updates in the last 24 hours.</description>
+                <target>EPOProductEvents</target>
+                <table-uri>query:table?orion.table.columns=EPOProductEvents.TVDEventID%3AEPOProductEvents.ProductCode%3AEPOLeafNode.NodeName%3AEPOProductEvents.IPV6%3AEPOProductEvents.DetectedUTC&amp;orion.table.order=az&amp;orion.table.order.by=EPOProductEvents.TVDEventID%3AEPOProductEvents.ProductCode%3AEPOLeafNode.NodeName%3AEPOProductEvents.DetectedUTC</table-uri>
+                <condition-uri>query:condition?orion.condition.sexp=%28+where+%28+and+%28+eq+EPOProductEvents.TVDEventID+258++%29+%28+newerThan+EPOProductEvents.DetectedUTC+604800000++%29+%29+%29</condition-uri>
+                <summary-uri>query:summary?orion.sum.query=true&amp;orion.query.type=bar.bar&amp;orion.sum.group.by=EPOProductEvents.DetectedUTC&amp;orion.sum.time.cols=true&amp;orion.sum.time.unit=hour&amp;orion.sum.order=oldest&amp;orion.sum.limit.count=200&amp;orion.sum.aggregation=count&amp;orion.sum.aggregation.showTotal=true</summary-uri>
+            </query>
+        </customExport>
+    </monitor>
+    <monitor>
+        <uid>31</uid>
+        <width>1</width>
+        <height>1</height>
+        <x>1</x>
+        <y>2</y>
+        <refreshInterval>5</refreshInterval>
+        <refreshIntervalUnit>MIN</refreshIntervalUnit>
+        <customConfigOptions>dashboardElement:config?database=db%3Acore%3Fid%3Dlocal</customConfigOptions>
+        <filteringEnabled>true</filteringEnabled>
+        <customExport factory="core.queryFactory">
+            <query id="10">
+                <dictionary id="11"/>
+                <name>Distributed Repository Status</name>
+                <description>Displays a Boolean pie chart of your distributed repositories, divided according to whether their last replication was successful.</description>
+                <target>EPORepositoryStatus</target>
+                <table-uri>query:table?orion.table.columns=EPORepositoryStatus.name%3AEPORepositoryStatus.type%3AEPORepositoryStatus.status%3AEPORepositoryStatus.lastreplication&amp;orion.table.order=az&amp;orion.table.order.by=EPORepositoryStatus.name%3AEPORepositoryStatus.type%3AEPORepositoryStatus.status</table-uri>
+                <condition-uri>query:condition?orion.condition.sexp=%28+where+%28+eq+EPORepositoryStatus.type+3++%29+%29</condition-uri>
+                <summary-uri>query:summary?bool.red.text=failure&amp;orion.query.type=pie.bool&amp;bool.green.criteria=%28+where+%28+eq+EPORepositoryStatus.status+3++%29+%29&amp;bool.green.text=success&amp;orion.sum.aggregation=count&amp;orion.sum.aggregation.showTotal=true</summary-uri>
+            </query>
+        </customExport>
+    </monitor>
+    <monitor>
+        <uid>33</uid>
+        <width>1</width>
+        <height>1</height>
+        <x>0</x>
+        <y>2</y>
+        <refreshInterval>5</refreshInterval>
+        <refreshIntervalUnit>MIN</refreshIntervalUnit>
+        <customConfigOptions>dashboardElement:config?database=</customConfigOptions>
+        <filteringEnabled>true</filteringEnabled>
+        <customExport factory="core.queryFactory">
+            <query id="12">
+                <dictionary id="13"/>
+                <name>Server Task Errors (last month)</name>
+                <description></description>
+                <target>OrionTaskLogTask</target>
+                <table-uri>query:table?orion.table.columns=OrionTaskLogTask.Name%3AOrionTaskLogTask.StartDate%3AOrionTaskLogTask.EndDate%3AOrionTaskLogTask.UserName%3AOrionTaskLogTask.Status%3AOrionTaskLogTask.TaskSource&amp;orion.table.order=az&amp;orion.table.order.by=OrionTaskLogTask.Name%3AOrionTaskLogTask.StartDate%3AOrionTaskLogTask.EndDate%3AOrionTaskLogTask.UserName%3AOrionTaskLogTask.Status%3AOrionTaskLogTask.TaskSource</table-uri>
+                <condition-uri>query:condition?orion.condition.sexp=%28+where+%28+and+%28+ne+OrionTaskLogTask.Status+0++%29+%28+newerThan+OrionTaskLogTask.EndDate+2592000000++%29+%29+%29</condition-uri>
+                <summary-uri>query:summary?orion.sum.query=true&amp;orion.query.type=bar.bar&amp;orion.sum.group.by=OrionTaskLogTask.Status&amp;orion.sum.order=desc&amp;orion.sum.limit.count=200&amp;orion.sum.aggregation=count&amp;orion.sum.aggregation.showTotal=true</summary-uri>
+            </query>
+        </customExport>
+    </monitor>
+</dashboard>

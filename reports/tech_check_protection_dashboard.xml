@@ -1,0 +1,224 @@
+<dashboard id="1">
+    <name>Tech Check - Detection History</name>
+    <filteringEnabled>false</filteringEnabled>
+    <monitor>
+        <uid>14</uid>
+        <width>3</width>
+        <height>1</height>
+        <x>0</x>
+        <y>0</y>
+        <refreshInterval>5</refreshInterval>
+        <refreshIntervalUnit>MIN</refreshIntervalUnit>
+        <customConfigOptions>dashboardElement:config?database=</customConfigOptions>
+        <filteringEnabled>true</filteringEnabled>
+        <customExport factory="core.queryFactory">
+            <query id="2">
+                <dictionary id="3"/>
+                <name>Malware Detection History</name>
+                <description>Displays a line chart of the number of internal virus detections over the past quarter.</description>
+                <target>EPOEvents</target>
+                <table-uri>query:table?orion.table.columns=EPOLeafNode.NodeName%3AEPOEventFilterDesc.Name%3AEPOEvents.SourceIPV4%3AEPOLeafNode.os%3AEPOEvents.AnalyzerEngineVersion%3AEPOEvents.AnalyzerDATVersion&amp;orion.table.order=az&amp;orion.table.order.by=EPOLeafNode.NodeName%3AEPOEventFilterDesc.Name%3AEPOEvents.SourceIPV4%3AEPOLeafNode.os%3AEPOEvents.AnalyzerEngineVersion%3AEPOEvents.AnalyzerDATVersion</table-uri>
+                <condition-uri>query:condition?orion.requied.sexp=%28+where+%28+newerThan+EPOEvents.DetectedUTC+7862400000++%29+%29&amp;orion.condition.sexp=%28+where+%28+threatcategory_belongs+EPOEvents.ThreatCategory+%22av%22+%29+%29</condition-uri>
+                <summary-uri>query:summary?orion.sum.query=true&amp;line.count.title=EPOEvents&amp;orion.query.type=line.line&amp;line.title=EPOEvents.DetectedUTC&amp;orion.sum.group.by=EPOEvents.DetectedUTC&amp;orion.sum.time.cols=true&amp;orion.sum.time.unit=week&amp;orion.sum.order=oldest&amp;orion.sum.aggregation=count&amp;orion.sum.aggregation.showTotal=true</summary-uri>
+            </query>
+        </customExport>
+    </monitor>
+    <monitor>
+        <uid>10</uid>
+        <width>1</width>
+        <height>1</height>
+        <x>0</x>
+        <y>1</y>
+        <refreshInterval>5</refreshInterval>
+        <refreshIntervalUnit>MIN</refreshIntervalUnit>
+        <customConfigOptions>dashboardElement:config?database=</customConfigOptions>
+        <filteringEnabled>true</filteringEnabled>
+        <customExport factory="core.queryFactory">
+            <query id="4">
+                <dictionary id="5"/>
+                <name>Threats detected locally (signatures only)</name>
+                <description></description>
+                <target>EPOEvents</target>
+                <table-uri>query:table?orion.table.columns=EPOEvents.DetectedUTC%3AEPOEvents.TargetHostName%3AEPOEvents.ThreatName&amp;orion.table.order=az&amp;orion.table.order.by=EPOEvents.DetectedUTC%3AEPOEvents.TargetHostName%3AEPOEvents.ThreatName</table-uri>
+                <condition-uri>query:condition?orion.requied.sexp=%28+where+%28+newerThan+EPOEvents.DetectedUTC+15552000000++%29+%29&amp;orion.condition.sexp=%28+where+%28+and+%28+threatcategory_belongs+EPOEvents.ThreatCategory+%22av%22+%29+%28+and+%28+notContains+EPOEvents.ThreatName+%22Artemis%22+%29+%28+notContains+EPOEvents.ThreatName+%22TIE%2Fsuspect%22+%29+%29+%29+%29</condition-uri>
+                <summary-uri>query:summary?orion.sum.query=true&amp;orion.query.type=line.line&amp;orion.sum.group.by=EPOEvents.DetectedUTC&amp;orion.sum.time.cols=true&amp;orion.sum.time.unit=week&amp;orion.sum.order=oldest&amp;orion.sum.aggregation=count&amp;orion.sum.aggregation.showTotal=true</summary-uri>
+            </query>
+        </customExport>
+    </monitor>
+    <monitor>
+        <uid>6</uid>
+        <width>1</width>
+        <height>1</height>
+        <x>1</x>
+        <y>1</y>
+        <refreshInterval>5</refreshInterval>
+        <refreshIntervalUnit>MIN</refreshIntervalUnit>
+        <customConfigOptions>dashboardElement:config?database=</customConfigOptions>
+        <filteringEnabled>true</filteringEnabled>
+        <customExport factory="core.queryFactory">
+            <query id="6">
+                <dictionary id="7"/>
+                <name>Unique threats detected in the cloud</name>
+                <description></description>
+                <target>EPOEvents</target>
+                <table-uri>query:table?orion.table.columns=EPOEvents.DetectedUTC%3AEPOEvents.TargetHostName%3AEPOEvents.ThreatName&amp;orion.table.order=az&amp;orion.table.order.by=EPOEvents.DetectedUTC%3AEPOEvents.TargetHostName%3AEPOEvents.ThreatName</table-uri>
+                <condition-uri>query:condition?orion.requied.sexp=&amp;orion.condition.sexp=%28+where+%28+and+%28+threatcategory_belongs+EPOEvents.ThreatCategory+%22av%22+%29+%28+contains+EPOEvents.ThreatName+%22Artemis%22+%29+%28+newerThan+EPOEvents.DetectedUTC+15552000000++%29+%29+%29</condition-uri>
+                <summary-uri>query:summary?orion.sum.query=true&amp;orion.query.type=bar.bar&amp;orion.sum.group.by=EPOEvents.ThreatName&amp;orion.sum.order=desc&amp;orion.sum.limit.count=10&amp;orion.sum.aggregation=count&amp;orion.sum.aggregation.showTotal=true</summary-uri>
+            </query>
+        </customExport>
+    </monitor>
+    <monitor>
+        <uid>22</uid>
+        <width>1</width>
+        <height>1</height>
+        <x>2</x>
+        <y>1</y>
+        <refreshInterval>5</refreshInterval>
+        <refreshIntervalUnit>MIN</refreshIntervalUnit>
+        <customConfigOptions>dashboardElement:config?database=</customConfigOptions>
+        <filteringEnabled>true</filteringEnabled>
+        <customExport factory="core.queryFactory">
+            <query id="8">
+                <dictionary id="9"/>
+                <name>Top 10 endpoints - Threat Events (last 7 days)</name>
+                <description></description>
+                <target>EPOEvents</target>
+                <table-uri>query:table?orion.table.columns=EPOEvents.DetectedUTC%3AEPOEvents.TargetHostName%3AEPOEvents.ThreatName&amp;orion.table.order=az&amp;orion.table.order.by=EPOEvents.DetectedUTC%3AEPOEvents.TargetHostName%3AEPOEvents.ThreatName</table-uri>
+                <condition-uri>query:condition?orion.condition.sexp=%28+where+%28+and+%28+threatcategory_belongs+EPOEvents.ThreatCategory+%22av%22+%29+%28+newerThan+EPOEvents.DetectedUTC+604800000++%29+%29+%29</condition-uri>
+                <summary-uri>query:summary?orion.sum.query=true&amp;orion.query.type=bar.bar&amp;orion.sum.group.by=EPOEvents.TargetHostName&amp;orion.sum.order=desc&amp;orion.sum.limit.count=10&amp;orion.sum.aggregation=count&amp;orion.sum.aggregation.showTotal=true</summary-uri>
+            </query>
+        </customExport>
+    </monitor>
+    <monitor>
+        <uid>20</uid>
+        <width>1</width>
+        <height>1</height>
+        <x>0</x>
+        <y>2</y>
+        <refreshInterval>5</refreshInterval>
+        <refreshIntervalUnit>MIN</refreshIntervalUnit>
+        <customConfigOptions>dashboardElement:config?database=</customConfigOptions>
+        <filteringEnabled>true</filteringEnabled>
+        <customExport factory="core.queryFactory">
+            <query id="10">
+                <dictionary id="11"/>
+                <name>Threats detected by the cloud (no signatures)</name>
+                <description></description>
+                <target>EPOEvents</target>
+                <table-uri>query:table?orion.table.columns=EPOEvents.DetectedUTC%3AEPOEvents.TargetHostName%3AEPOEvents.ThreatName&amp;orion.table.order=az&amp;orion.table.order.by=EPOEvents.DetectedUTC%3AEPOEvents.TargetHostName%3AEPOEvents.ThreatName</table-uri>
+                <condition-uri>query:condition?orion.requied.sexp=%28+where+%28+newerThan+EPOEvents.DetectedUTC+15552000000++%29+%29&amp;orion.condition.sexp=%28+where+%28+and+%28+threatcategory_belongs+EPOEvents.ThreatCategory+%22av%22+%29+%28+contains+EPOEvents.ThreatName+%22Artemis%22+%29+%29+%29</condition-uri>
+                <summary-uri>query:summary?orion.sum.query=true&amp;orion.query.type=line.line&amp;orion.sum.group.by=EPOEvents.DetectedUTC&amp;orion.sum.time.cols=true&amp;orion.sum.time.unit=day&amp;orion.sum.order=oldest&amp;orion.sum.aggregation=count&amp;orion.sum.aggregation.showTotal=true</summary-uri>
+            </query>
+        </customExport>
+    </monitor>
+    <monitor>
+        <uid>16</uid>
+        <width>1</width>
+        <height>1</height>
+        <x>1</x>
+        <y>2</y>
+        <refreshInterval>5</refreshInterval>
+        <refreshIntervalUnit>MIN</refreshIntervalUnit>
+        <customConfigOptions>dashboardElement:config?database=</customConfigOptions>
+        <filteringEnabled>true</filteringEnabled>
+        <customExport factory="core.queryFactory">
+            <query id="12">
+                <dictionary id="13"/>
+                <name>Threat Events NOT handled (last 1 week)</name>
+                <description></description>
+                <target>EPOEvents</target>
+                <table-uri>query:table?orion.table.columns=EPOEvents.DetectedUTC%3AEPOEvents.TargetHostName%3AEPOEvents.ThreatName&amp;orion.table.order=az&amp;orion.table.order.by=EPOEvents.DetectedUTC%3AEPOEvents.TargetHostName%3AEPOEvents.ThreatName</table-uri>
+                <condition-uri>query:condition?orion.condition.sexp=%28+where+%28+and+%28+newerThan+EPOEvents.DetectedUTC+604800000++%29+%28+ne+EPOEvents.ThreatHandled+t+%29+%28+threatcategory_belongs+EPOEvents.ThreatCategory+%22av%22+%29+%29+%29</condition-uri>
+                <summary-uri>query:summary?orion.sum.query=true&amp;orion.query.type=pie.pie&amp;show.percentage=false&amp;orion.sum.group.by=EPOEvents.ThreatHandled&amp;orion.sum.order=desc&amp;orion.sum.limit.count=360&amp;orion.show.other=true&amp;orion.sum.aggregation=count&amp;orion.sum.aggregation.showTotal=true</summary-uri>
+            </query>
+        </customExport>
+    </monitor>
+    <monitor>
+        <uid>23</uid>
+        <width>1</width>
+        <height>1</height>
+        <x>2</x>
+        <y>2</y>
+        <refreshInterval>5</refreshInterval>
+        <refreshIntervalUnit>MIN</refreshIntervalUnit>
+        <customConfigOptions>dashboardElement:config?database=</customConfigOptions>
+        <filteringEnabled>true</filteringEnabled>
+        <customExport factory="core.queryFactory">
+            <query id="14">
+                <dictionary id="15"/>
+                <name>Top 10 users - Threat Events (last 7 days)</name>
+                <description></description>
+                <target>EPOEvents</target>
+                <table-uri>query:table?orion.table.columns=EPOEvents.DetectedUTC%3AEPOEvents.TargetHostName%3AEPOEvents.ThreatName&amp;orion.table.order=az&amp;orion.table.order.by=EPOEvents.DetectedUTC%3AEPOEvents.TargetHostName%3AEPOEvents.ThreatName</table-uri>
+                <condition-uri>query:condition?orion.condition.sexp=%28+where+%28+and+%28+threatcategory_belongs+EPOEvents.ThreatCategory+%22av%22+%29+%28+newerThan+EPOEvents.DetectedUTC+604800000++%29+%29+%29</condition-uri>
+                <summary-uri>query:summary?orion.sum.query=true&amp;orion.query.type=bar.bar&amp;orion.sum.group.by=EPOEvents.TargetUserName&amp;orion.sum.order=desc&amp;orion.sum.limit.count=10&amp;orion.sum.aggregation=count&amp;orion.sum.aggregation.showTotal=true</summary-uri>
+            </query>
+        </customExport>
+    </monitor>
+    <monitor>
+        <uid>5</uid>
+        <width>1</width>
+        <height>1</height>
+        <x>0</x>
+        <y>3</y>
+        <refreshInterval>5</refreshInterval>
+        <refreshIntervalUnit>MIN</refreshIntervalUnit>
+        <customConfigOptions>dashboardElement:config?database=</customConfigOptions>
+        <filteringEnabled>true</filteringEnabled>
+        <customExport factory="core.queryFactory">
+            <query id="16">
+                <dictionary id="17"/>
+                <name>Threats detected by Local Threat Intelligence</name>
+                <description></description>
+                <target>EPOEvents</target>
+                <table-uri>query:table?orion.table.columns=EPOEvents.DetectedUTC%3AEPOEvents.TargetHostName%3AEPOEvents.ThreatName&amp;orion.table.order=az&amp;orion.table.order.by=EPOEvents.DetectedUTC%3AEPOEvents.TargetHostName%3AEPOEvents.ThreatName</table-uri>
+                <condition-uri>query:condition?orion.requied.sexp=%28+where+%28+newerThan+EPOEvents.DetectedUTC+15552000000++%29+%29&amp;orion.condition.sexp=%28+where+%28+and+%28+threatcategory_belongs+EPOEvents.ThreatCategory+%22av%22+%29+%28+contains+EPOEvents.ThreatName+%22TIE%22+%29+%29+%29</condition-uri>
+                <summary-uri>query:summary?orion.sum.query=true&amp;orion.query.type=line.line&amp;orion.sum.group.by=EPOEvents.DetectedUTC&amp;orion.sum.time.cols=true&amp;orion.sum.time.unit=week&amp;orion.sum.order=oldest&amp;orion.sum.aggregation=count&amp;orion.sum.aggregation.showTotal=true</summary-uri>
+            </query>
+        </customExport>
+    </monitor>
+    <monitor>
+        <uid>18</uid>
+        <width>1</width>
+        <height>1</height>
+        <x>1</x>
+        <y>3</y>
+        <refreshInterval>5</refreshInterval>
+        <refreshIntervalUnit>MIN</refreshIntervalUnit>
+        <customConfigOptions>dashboardElement:config?database=</customConfigOptions>
+        <filteringEnabled>true</filteringEnabled>
+        <customExport factory="core.queryFactory">
+            <query id="18">
+                <dictionary id="19"/>
+                <name>Top Blocked Sites by Users</name>
+                <description>SiteAdvisor Enterprise: Top 100 sites that were blocked over the last 30 days.</description>
+                <target>SAEEvent</target>
+                <table-uri>query:table?orion.table.columns=SAEEvent.DetectedUTC%3ASAEEvent.RatingID%3ASAEEvent.ContentID%3ASAEEvent.DomainName%3ASAEEvent.ActionID%3ASAEEvent.ReasonID%3ASAEEvent.ListID%3ASAEEvent.URL%3AEPOLeafNode.NodeName%3ASAEEvent.Count&amp;orion.table.order=az&amp;orion.table.order.by=SAEEvent.DetectedUTC%3ASAEEvent.RatingID%3ASAEEvent.ContentID%3ASAEEvent.DomainName%3ASAEEvent.ActionID%3ASAEEvent.ReasonID%3ASAEEvent.ListID%3ASAEEvent.URL%3AEPOLeafNode.NodeName</table-uri>
+                <condition-uri>query:condition?orion.condition.sexp=%28+where+%28+and+%28+eq+SAEEvent.EventTypeID+18600++%29+%28+newerThan+SAEEvent.DetectedUTC+2592000000++%29+%28+eq+SAEEvent.ActionID+4++%29+%28+not_isBlank+EPOLeafNode.NodeName+%29+%29+%29</condition-uri>
+                <summary-uri>query:summary?orion.sum.query=true&amp;topn.title=SAEEvent.DomainName&amp;orion.query.type=summary.topn&amp;orion.sum.group.by=SAEEvent.UserID&amp;orion.sum.order=desc&amp;orion.sum.limit.count=100&amp;orion.sum.aggregation=sum&amp;orion.sum.aggregation.column=SAEEvent.Count&amp;orion.sum.aggregation.showTotal=true</summary-uri>
+            </query>
+        </customExport>
+    </monitor>
+    <monitor>
+        <uid>25</uid>
+        <width>1</width>
+        <height>1</height>
+        <x>2</x>
+        <y>3</y>
+        <refreshInterval>5</refreshInterval>
+        <refreshIntervalUnit>MIN</refreshIntervalUnit>
+        <customConfigOptions>dashboardElement:config?database=</customConfigOptions>
+        <filteringEnabled>true</filteringEnabled>
+        <customExport factory="core.queryFactory">
+            <query id="20">
+                <dictionary id="21"/>
+                <name>Threat detection by OS (Last 7 days)</name>
+                <description></description>
+                <target>EPOEvents</target>
+                <table-uri>query:table?orion.table.columns=EPOEvents.DetectedUTC%3AEPOEvents.TargetHostName%3AEPOEvents.ThreatName&amp;orion.table.order=az&amp;orion.table.order.by=EPOEvents.DetectedUTC%3AEPOEvents.TargetHostName%3AEPOEvents.ThreatName</table-uri>
+                <condition-uri>query:condition?orion.condition.sexp=%28+where+%28+and+%28+not_isBlank+EPOComputerProperties.OSType+%29+%28+newerThan+EPOEvents.DetectedUTC+604800000++%29+%29+%29</condition-uri>
+                <summary-uri>query:summary?orion.sum.query=true&amp;orion.query.type=bar.groupedbar&amp;orion.sum.group.by=EPOComputerProperties.OSType%3AEPOEvents.ThreatSeverity&amp;orion.sum.order=desc%3Adesc&amp;orion.sum.limit.count=100%3A100&amp;orion.sum.aggregation=count&amp;orion.sum.aggregation.showTotal=true</summary-uri>
+            </query>
+        </customExport>
+    </monitor>
+</dashboard>
