@@ -20,9 +20,9 @@ func CheckSystemTree(data epo.SystemProperties)(systemChecks TechCheckResults){
 	OSStr := ""
 
 	for i := range data {
-		fmt.Printf("Record # %v\n", lineNum)
+		//fmt.Printf("Record # %v\n", lineNum)
 		for key, value := range data[i] {
-			fmt.Println("Key:", key, "Value:", value)
+			//fmt.Println("Key:", key, "Value:", value)
 
 			// Collect McAfee Web Gateway
 			if (key == "EPOComputerProperties.OSVersion"){
@@ -54,7 +54,7 @@ func CheckSystemTree(data epo.SystemProperties)(systemChecks TechCheckResults){
 			}
 		}
 		lineNum = lineNum + 1
-		fmt.Println("")
+		//fmt.Println("")
 	}
 	systemChecks.totalSystems = lineNum - 1
 	systemChecks.systemTypes = osTypes
@@ -107,6 +107,7 @@ func CheckSystems(myParms epo.ParamStruct){
 	jsonStr := epo.GetUrl(myParms)
 	data := epo.DecodeJson(jsonStr)
 	treeResults := CheckSystemTree(data)
+	fmt.Println("Results")
 	fmt.Println(treeResults)
 }
 
